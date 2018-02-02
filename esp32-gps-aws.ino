@@ -1,23 +1,21 @@
 #include <TinyGPS++.h>
-#include <SoftwareSerial.h>
 /*
    This sample sketch demonstrates the normal use of a TinyGPS++ (TinyGPSPlus) object.
    It requires the use of SoftwareSerial, and assumes that you have a
    4800-baud serial GPS device hooked up on pins 4(rx) and 3(tx).
 */
-static const int RXPin = 4, TXPin = 3;
-static const uint32_t GPSBaud = 4800;
+static const uint32_t GPSBaud = 9600;
 
 // The TinyGPS++ object
 TinyGPSPlus gps;
 
 // The serial connection to the GPS device
-SoftwareSerial ss(RXPin, TXPin);
+HardwareSerial hSerial2(2); // UART2 (RX=16, TX=17)
 
 void setup()
 {
   Serial.begin(115200);
-  ss.begin(GPSBaud);
+  hSerial2.begin(GPSBaud);
 
   Serial.println(F("DeviceExample.ino"));
   Serial.println(F("A simple demonstration of TinyGPS++ with an attached GPS module"));
@@ -29,8 +27,8 @@ void setup()
 void loop()
 {
   // This sketch displays information every time a new sentence is correctly encoded.
-  while (ss.available() > 0)
-    if (gps.encode(ss.read()))
+  while (hSerial2.available() > 0)
+    if (gps.encode(hSerial2.read()))
       displayInfo();
 
   if (millis() > 5000 && gps.charsProcessed() < 10)
