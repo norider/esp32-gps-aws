@@ -29,6 +29,7 @@ void loop()
 
 void displayInfo()
 {
+  // Location
   Serial.print(F("Location: ")); 
   if (gps.location.isValid())
   {
@@ -41,6 +42,7 @@ void displayInfo()
     Serial.print(F("INVALID"));
   }
 
+  // Date
   Serial.print(F("  Date/Time: "));
   if (gps.date.isValid())
   {
@@ -55,6 +57,7 @@ void displayInfo()
     Serial.print(F("INVALID"));
   }
 
+  // Time
   Serial.print(F(" "));
   if (gps.time.isValid())
   {
@@ -69,6 +72,63 @@ void displayInfo()
     Serial.print(F("."));
     if (gps.time.centisecond() < 10) Serial.print(F("0"));
     Serial.print(gps.time.centisecond());
+  }
+  else
+  {
+    Serial.print(F("INVALID"));
+  }
+
+  // Speed
+  Serial.print(F("  Speed: "));
+  if (gps.speed.isValid())
+  {
+    Serial.print(gps.speed.kmph()); // Speed in kilometers per hour (double)
+    Serial.print(F("km/h"));
+  }
+  else
+  {
+    Serial.print(F("INVALID"));
+  }
+  
+  // course
+  Serial.print(F("  Course: "));
+  if (gps.course.isValid())
+  {
+    Serial.print(gps.course.deg()); // Course in degrees (double)
+  }
+  else
+  {
+    Serial.print(F("INVALID"));
+  }
+  
+  // altitude
+  Serial.print(F("  Altitude: "));
+  if (gps.altitude.isValid())
+  {
+    Serial.print(gps.altitude.meters()); // Altitude in meters (double)
+    Serial.print(F("m"));
+  }
+  else
+  {
+    Serial.print(F("INVALID"));
+  }
+
+  // satellites
+  Serial.print(F("  Satellites: "));
+  if (gps.satellites.isValid())
+  {
+    Serial.print(gps.satellites.value()); // Number of satellites in use (u32)
+  }
+  else
+  {
+    Serial.print(F("INVALID"));
+  }
+
+  // horizontal diminution of precision
+  Serial.print(F("  hdop: "));
+  if (gps.hdop.isValid())
+  {
+    Serial.print(gps.hdop.value()); // Horizontal Dim. of Precision (100ths-i32)
   }
   else
   {
